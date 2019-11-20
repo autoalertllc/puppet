@@ -134,7 +134,7 @@ class deepsecurityagent::install inherits deepsecurityagent {
     'windows' : {
       if $agentsource =~ /^s3:/ {
         exec { 'Download_Windows_Agent':
-          command => "\"C:\\Program Files\\Amazon\\AWSCLI\\bin\\aws\" s3 cp ${dsainstallerurl} \"${facts['windows_env']['TEMP']}\\agent.msi\"",
+          command => "\"C:\\Program Files\\Amazon\\AWSCLI\\bin\\aws.exe\" s3 cp ${dsainstallerurl} \"${facts['windows_env']['TEMP']}\\agent.msi\"",
           path    => "C:\\Windows\\sysnative\\",
           creates => "${facts['windows_env']['TEMP']}\\agent.msi"
         }
