@@ -44,6 +44,7 @@ class deepsecurityagent (
   $dsmtenantpassword = $deepsecurityagent::params::dsmtenantpassword,
   $policyid = $deepsecurityagent::params::policyid,
   $activate = false,
+  $dsainstallerurl = '',
 ) inherits deepsecurityagent::params {
 
   debug("called with activation = $activate")
