@@ -45,6 +45,9 @@ class deepsecurityagent::install inherits deepsecurityagent {
               '10.04'     : {$agentsource = "${dsmurl}/Ubuntu_10.04/x86_64/"}
               '12.04'     : {$agentsource = "${dsmurl}/Ubuntu_12.04/x86_64/"}
               '14.04'     : {$agentsource = "${dsmurl}/Ubuntu_14.04/x86_64/"}
+              '16.04'     : {$agentsource = "${dsmurl}/Ubuntu_16.04/x86_64/"}
+              '18.04'     : {$agentsource = "${dsmurl}/Ubuntu_18.04/x86_64/"}
+              '20.04'     : {$agentsource = "${dsmurl}/Ubuntu_20.04/x86_64/"}
             }
           }
         }
