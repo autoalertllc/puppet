@@ -13,7 +13,7 @@ class deepsecurityagent::install inherits deepsecurityagent {
           'x64'  : {$agentsource = "${dsmurl}/Windows/x86_64/"}
         }
       }
-      'RedHat', 'CentOS' : {
+      'RedHat', 'CentOS', 'Rocky' : {
         case $::architecture {
           'x86' : {
             case $::operatingsystemmajrelease {
@@ -28,6 +28,7 @@ class deepsecurityagent::install inherits deepsecurityagent {
               '5'     : {$agentsource = "${dsmurl}/RedHat_EL5/x86_64/"}
               '6'     : {$agentsource = "${dsmurl}/RedHat_EL6/x86_64/"}
               '7'     : {$agentsource = "${dsmurl}/RedHat_EL7/x86_64/"}
+              '8'     : {$agentsource = "${dsmurl}/RedHat_EL8/x86_64/"}
             }
           }
         }
@@ -77,7 +78,7 @@ class deepsecurityagent::install inherits deepsecurityagent {
   debug("Downloading agent from ${agentsource}")
 
   case $::osfamily {
-    'Redhat', 'CentOS', 'Amazon', 'Linux' :{
+    'Redhat', 'CentOS', 'Amazon', 'Linux', 'Rocky' :{
       if $::operatingsystemmajrelease == 5 {
         case $::architecture {
           'x86' : {$agentfilesourceR5 = "${dsmurl}/RedHat_EL5/i386/"}
