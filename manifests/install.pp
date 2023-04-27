@@ -29,6 +29,7 @@ class deepsecurityagent::install inherits deepsecurityagent {
               '6'     : {$agentsource = "${dsmurl}/RedHat_EL6/x86_64/"}
               '7'     : {$agentsource = "${dsmurl}/RedHat_EL7/x86_64/"}
               '8'     : {$agentsource = "${dsmurl}/RedHat_EL8/x86_64/"}
+              '9'     : {$agentsource = "${dsmurl}/RedHat_EL9/x86_64/"}
             }
           }
         }
