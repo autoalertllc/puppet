@@ -16,7 +16,7 @@ class deepsecurityagent::activation (
     $tenantarguments = ''
   }
   else {
-    $tenantarguments = "\"tenantID:${dsmtenantid}\" \"tenantPassword:${dsmtenantpassword}\""
+    $tenantarguments = "\"tenantID:${dsmtenantid}\" \"token:${dsmtenantpassword}\""
   }
 
   if $policyid == '' {
