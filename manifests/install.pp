@@ -138,6 +138,19 @@ class deepsecurityagent::install inherits deepsecurityagent {
       }
     }
     'windows' : {
+      $trend_agent_installed_check = @("POWERSHELL"/L)
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "& {
+  $packages = @(
+    Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue
+    Get-ItemProperty 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue
+  ) | Where-Object {
+    $_.DisplayName -eq 'Trend Micro Deep Security Agent' -or $_.DisplayName -eq 'TrendAI™ Deep Security Agent'
+  }
+
+  if ($packages) { exit 0 } else { exit 1 }
+}"
+      | POWERSHELL
+
       if $agentsource =~ /^s3:/ {
         exec { 'Download_Windows_Agent':
           command => "\"C:\\Program Files\\Amazon\\AWSCLI\\bin\\aws.exe\" s3 cp ${dsainstallerurl} \"${facts['windows_env']['TEMP']}\\agent.msi\"",
@@ -151,14 +164,12 @@ class deepsecurityagent::install inherits deepsecurityagent {
           creates => "${facts['windows_env']['TEMP']}\\agent.msi"
         }
       }
-      package { $deepsecurityagent::params::agentpackage:
-        ensure          => 'installed',
-        install_options => ['ADDLOCAL=ALL', '/l*v', "${facts['windows_env']['TEMP']}\\dsa_install.log"], #lint:ignore:140chars
-        source          => "${facts['windows_env']['TEMP']}\\agent.msi",
-        require         => Exec['Download_Windows_Agent']
-
+      exec { 'Install_Windows_Agent':
+        command => "C:\\Windows\\System32\\msiexec.exe /i \"${facts['windows_env']['TEMP']}\\agent.msi\" /qn REBOOT=ReallySuppress ADDLOCAL=ALL /l*v \"${facts['windows_env']['TEMP']}\\dsa_install.log\"",
+        path    => "C:\\Windows\\sysnative\\",
+        unless  => $trend_agent_installed_check,
+        require => Exec['Download_Windows_Agent'],
       }
     }
   }
 }
-
