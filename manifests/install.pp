@@ -154,7 +154,7 @@ class deepsecurityagent::install inherits deepsecurityagent {
       exec { 'Install_Windows_Agent':
         command => "C:\\Windows\\System32\\msiexec.exe /i \"${facts['windows_env']['TEMP']}\\agent.msi\" /qn REBOOT=ReallySuppress ADDLOCAL=ALL /l*v \"${facts['windows_env']['TEMP']}\\dsa_install.log\"",
         path    => "C:\\Windows\\sysnative\\",
-        unless  => "if exist \"C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control.cmd\" (exit 0) else (exit 1)",
+        unless  => "C:\\Windows\\System32\\cmd.exe /c if exist \"C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control.cmd\" (exit 0) else (exit 1)",
         require => Exec['Download_Windows_Agent'],
       }
     }
